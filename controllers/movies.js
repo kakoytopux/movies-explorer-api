@@ -29,7 +29,7 @@ module.exports.createFilm = (req, res) => {
     .catch((err) => res.status(500).send({ err }));
 };
 module.exports.deleteFilm = (req, res) => {
-  Movie.findByIdAndDelete(req.params._id)
+  Movie.findByIdAndDelete(req.params._id).populate('owner')
     .then((film) => res.send({ film }))
     .catch((err) => res.status(500).send({ err }));
 };
