@@ -1,5 +1,9 @@
 const bcrypt = require('bcryptjs');
 const User = require('../models/user');
+const errForbidden = require('../errors/errForbidden');
+const errInternal = require('../errors/errInternal');
+
+const createErrInternal = () => new errInternal('Внутренняя ошибка сервера');
 
 module.exports.getUserInfo = (req, res) => {
   User.findById(req.user._id)
@@ -13,7 +17,7 @@ module.exports.updateUserInfo = (req, res) => {
     .then((user) => res.send({ user }))
     .catch((err) => res.status(500).send({ err }));
 };
-module.exports.createUser = (req, res) => {
+module.exports.createUser = (req, res, next) => {
   const { email, password, name } = req.body;
 
   bcrypt.hash(password, 12)
@@ -22,7 +26,14 @@ module.exports.createUser = (req, res) => {
       const objUserInfo = user.toObject();
       delete objUserInfo.password;
 
-      res.send({ objUserInfo });
+      res.status(201).send({ objUserInfo });
     })
-    .catch((err) => res.status(500).send({ err }));
+    .catch((err) => {
+      if (err.code === 11000) {
+        next(new errForbidden('Такая почта уже используется.'));
+        return;
+      }
+
+      next(createErrInternal());
+    });
 };
