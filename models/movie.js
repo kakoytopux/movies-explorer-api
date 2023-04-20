@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { regularExpressionForLinks } = require('../utils/const');
 
 const movieSchema = new mongoose.Schema({
   country: {
@@ -24,24 +25,39 @@ const movieSchema = new mongoose.Schema({
   image: {
     type: String,
     required: true,
+    validate: {
+      validator(link) {
+        return regularExpressionForLinks.test(link);
+      },
+    },
   },
   trailerLink: {
     type: String,
     required: true,
+    validate: {
+      validator(link) {
+        return regularExpressionForLinks.test(link);
+      },
+    },
   },
   thumbnail: {
     type: String,
     required: true,
+    validate: {
+      validator(link) {
+        return regularExpressionForLinks.test(link);
+      },
+    },
   },
   owner: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'user',
     required: true,
   },
-  movieId: {
-    type: mongoose.Schema.Types.ObjectId,
-    required: true,
-  },
+  // movieId: {
+  //   type: mongoose.Schema.Types.ObjectId,
+  //   required: true,
+  // },
   nameRU: {
     type: String,
     required: true,

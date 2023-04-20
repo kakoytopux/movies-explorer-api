@@ -22,9 +22,9 @@ module.exports.signin = (req, res, next) => {
             throw new errBadRequest('Неправильная почта или пароль.');
           }
 
-          const token = jwt.sign({ _id: user._id }, NODE_ENV !== 'production' ? 'dev-secret-key' : JWT_SECRET, { expiresIn: '7d' });
+          const token = jwt.sign({ _id: user._id }, NODE_ENV !== 'production' ? 'dev-secret-token' : JWT_SECRET, { expiresIn: '7d' });
 
-          res.cookie('jwt', token, {
+          res.cookie('token', token, {
             maxAge: 3600000 * 24 * 7,
             httpOnly: true,
             sameSite: true,

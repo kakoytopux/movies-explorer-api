@@ -1,8 +1,10 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const { celebrate, Joi, errors } = require('celebrate');
+const cookieParser = require('cookie-parser');
 const { signin } = require('./controllers/signin');
 const { createUser } = require('./controllers/users');
+const { auth } = require('./middlewares/auth');
 require('dotenv').config();
 const errNotFound = require('./errors/errNotFound');
 
@@ -10,6 +12,7 @@ const { PORT = 3000 } = process.env;
 const app = express();
 
 app.use(express.json());
+app.use(cookieParser());
 
 mongoose.connect('mongodb://127.0.0.1:27017/bitfilmsdb');
 
@@ -26,6 +29,8 @@ app.post('/signup', celebrate({
     name: Joi.string().required().min(2).max(30),
   }),
 }), createUser);
+
+app.use(auth);
 
 app.use('/users', require('./routes/users'));
 app.use('/movies', require('./routes/movies'));
