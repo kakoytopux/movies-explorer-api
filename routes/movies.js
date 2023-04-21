@@ -18,6 +18,10 @@ router.post('/', celebrate({
     nameEN: Joi.string().required(),
   }),
 }), createFilm);
-router.delete('/:_id', deleteFilm);
+router.delete('/:_id', celebrate({
+  params: Joi.object().keys({
+    _id: Joi.string().hex().required(),
+  }),
+}), deleteFilm);
 
 module.exports = router;

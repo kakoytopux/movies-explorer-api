@@ -1,5 +1,8 @@
 const Movie = require('../models/movie');
 const errInternal = require('../errors/errInternal');
+const errForbidden = require('../errors/errForbidden');
+const errNotFound = require('../errors/errNotFound');
+const errBadRequest = require('../errors/errBadRequest');
 
 const createErrInternal = () => new errInternal('Внутренняя ошибка сервера');
 
@@ -33,7 +36,26 @@ module.exports.createFilm = (req, res, next) => {
     .catch(() => next(createErrInternal()));
 };
 module.exports.deleteFilm = (req, res, next) => {
-  Movie.findByIdAndDelete(req.params._id).populate('owner')
-    .then((film) => res.send({ film }))
-    .catch(() => next(createErrInternal()));
+  Movie.findById(req.params._id).populate('owner')
+    .then((movie) => {
+      if (movie === null) {
+        next(new errNotFound('Фильм не найден.'));
+        return;
+      }
+      if (movie.owner._id != req.user._id) {
+        next(new errForbidden('Отказано в доступе.'));
+        return;
+      }
+
+      // eslint-disable-next-line consistent-return
+      return movie.deleteOne({}).then((item) => res.send({ item }));
+    })
+    .catch((err) => {
+      if (err.name === 'CastError') {
+        next(new errBadRequest('Указан недопустимый _id.'));
+        return;
+      }
+
+      next(createErrInternal());
+    });
 };
