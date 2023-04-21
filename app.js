@@ -2,7 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
-const mainRouters = require('./routes/index');
+const router = require('./routes/index');
 const limiter = require('./middlewares/limiter');
 
 const { PORT = 3000 } = process.env;
@@ -14,6 +14,6 @@ app.use(limiter);
 
 mongoose.connect('mongodb://127.0.0.1:27017/bitfilmsdb');
 
-app.use(mainRouters);
+app.use('/api', router);
 
 app.listen(PORT);

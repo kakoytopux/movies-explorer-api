@@ -9,13 +9,13 @@ const errNotFound = require('../errors/errNotFound');
 
 router.use(requestLogger);
 
-router.post('/api/signin', celebrate({
+router.post('/signin', celebrate({
   body: Joi.object().keys({
     email: Joi.string().email().required(),
     password: Joi.string().required(),
   }),
 }), signin);
-router.post('/api/signup', celebrate({
+router.post('/signup', celebrate({
   body: Joi.object().keys({
     email: Joi.string().email().required(),
     password: Joi.string().required(),
@@ -25,9 +25,9 @@ router.post('/api/signup', celebrate({
 
 router.use(auth);
 
-router.delete('/api/signout', signout);
-router.use('/api/users', require('./users'));
-router.use('/api/movies', require('./movies'));
+router.delete('/signout', signout);
+router.use('/users', require('./users'));
+router.use('/movies', require('./movies'));
 
 router.use('*', (req, res, next) => {
   next(new errNotFound('Неверный запрос.'));
