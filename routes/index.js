@@ -1,10 +1,10 @@
 const router = require('express').Router();
 const { celebrate, Joi, errors } = require('celebrate');
+const { requestLogger, errorLogger } = require('../middlewares/logger');
 const { signin } = require('../controllers/signin');
 const { createUser } = require('../controllers/users');
 const { signout } = require('../controllers/signout');
 const { auth } = require('../middlewares/auth');
-const { requestLogger, errorLogger } = require('../middlewares/logger');
 const errNotFound = require('../errors/errNotFound');
 
 router.use(requestLogger);
