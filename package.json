@@ -5,8 +5,7 @@
   "main": "app.js",
   "scripts": {
     "start": "PORT=3000 && node app.js",
-    "dev": "SET PORT=3000 && nodemon app.js",
-    "lint": "npx eslint ."
+    "dev": "SET PORT=3000 && nodemon app.js"
   },
   "author": "puxichhh",
   "license": "ISC",
@@ -22,6 +21,7 @@
     "cookie-parser": "^1.4.6",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
+    "express-rate-limit": "^6.7.0",
     "express-winston": "^4.2.0",
     "jsonwebtoken": "^9.0.0",
     "mongoose": "^7.0.4",

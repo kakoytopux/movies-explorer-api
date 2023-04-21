@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs');
 const User = require('../models/user');
-const errForbidden = require('../errors/errForbidden');
+const errConflict = require('../errors/errConflict');
 const errInternal = require('../errors/errInternal');
 
 const createErrInternal = () => new errInternal('Внутренняя ошибка сервера');
@@ -30,7 +30,7 @@ module.exports.createUser = (req, res, next) => {
     })
     .catch((err) => {
       if (err.code === 11000) {
-        next(new errForbidden('Такая почта уже используется.'));
+        next(new errConflict('Такая почта уже используется.'));
         return;
       }
 

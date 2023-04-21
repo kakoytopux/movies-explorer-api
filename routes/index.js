@@ -2,6 +2,7 @@ const router = require('express').Router();
 const { celebrate, Joi, errors } = require('celebrate');
 const { signin } = require('../controllers/signin');
 const { createUser } = require('../controllers/users');
+const { signout } = require('../controllers/signout');
 const { auth } = require('../middlewares/auth');
 const { requestLogger, errorLogger } = require('../middlewares/logger');
 const errNotFound = require('../errors/errNotFound');
@@ -24,6 +25,7 @@ router.post('/signup', celebrate({
 
 router.use(auth);
 
+router.delete('/signout', signout);
 router.use('/users', require('./users'));
 router.use('/movies', require('./movies'));
 
@@ -35,7 +37,6 @@ router.use(errorLogger);
 
 router.use(errors());
 
-// eslint-disable-next-line no-unused-vars
 router.use((err, req, res, next) => {
   res.status(err.statusCode || 500).send({ message: err.message });
 });

@@ -47,7 +47,6 @@ module.exports.deleteFilm = (req, res, next) => {
         return;
       }
 
-      // eslint-disable-next-line consistent-return
       return movie.deleteOne({}).then((item) => res.send({ item }));
     })
     .catch((err) => {
