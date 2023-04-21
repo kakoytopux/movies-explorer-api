@@ -10,4 +10,5 @@
 6. Joi
 7. BcryptJS
 
-Ссылка на API: ...
+Публичный IPv4: 158.160.28.103  
+Ссылка на API: https://movies-explorer-pux.nomoredomains.monster/api
