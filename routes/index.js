@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { celebrate, Joi, errors } = require('celebrate');
+const { celebrate, errors } = require('celebrate');
 const { requestLogger, errorLogger } = require('../middlewares/logger');
 const { signin } = require('../controllers/signin');
 const { createUser } = require('../controllers/users');
@@ -7,24 +7,14 @@ const { signout } = require('../controllers/signout');
 const { auth } = require('../middlewares/auth');
 const errNotFound = require('../errors/errNotFound');
 const limiter = require('../middlewares/limiter');
+const { validateSignIn, validateSignUp } = require('../middlewares/validation');
 
 router.use(requestLogger);
 
 router.use(limiter);
 
-router.post('/signin', celebrate({
-  body: Joi.object().keys({
-    email: Joi.string().email().required(),
-    password: Joi.string().required(),
-  }),
-}), signin);
-router.post('/signup', celebrate({
-  body: Joi.object().keys({
-    email: Joi.string().email().required(),
-    password: Joi.string().required(),
-    name: Joi.string().required().min(2).max(30),
-  }),
-}), createUser);
+router.post('/signin', celebrate(validateSignIn), signin);
+router.post('/signup', celebrate(validateSignUp), createUser);
 
 router.use(auth);
 
