@@ -13,9 +13,19 @@ module.exports.getUserInfo = (req, res, next) => {
 module.exports.updateUserInfo = (req, res, next) => {
   const { email, name } = req.body;
 
-  User.findByIdAndUpdate(req.user._id, { email, name }, { new: true })
+  User.findByIdAndUpdate(req.user._id, { email, name }, {
+    new: true,
+    runValidators: true,
+  })
     .then((user) => res.send({ user }))
-    .catch(() => next(createErrInternal()));
+    .catch((err) => {
+      if (err.code === 11000) {
+        next(new errConflict('Такая почта уже используется.'));
+        return;
+      }
+
+      next(createErrInternal());
+    });
 };
 module.exports.createUser = (req, res, next) => {
   const { email, password, name } = req.body;

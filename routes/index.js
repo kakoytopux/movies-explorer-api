@@ -6,8 +6,11 @@ const { createUser } = require('../controllers/users');
 const { signout } = require('../controllers/signout');
 const { auth } = require('../middlewares/auth');
 const errNotFound = require('../errors/errNotFound');
+const limiter = require('../middlewares/limiter');
 
 router.use(requestLogger);
+
+router.use(limiter);
 
 router.post('/signin', celebrate({
   body: Joi.object().keys({

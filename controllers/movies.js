@@ -49,12 +49,5 @@ module.exports.deleteFilm = (req, res, next) => {
 
       return movie.deleteOne({}).then((item) => res.send({ item }));
     })
-    .catch((err) => {
-      if (err.name === 'CastError') {
-        next(new errBadRequest('Указан недопустимый _id.'));
-        return;
-      }
-
-      next(createErrInternal());
-    });
+    .catch(() => next(createErrInternal()));
 };
