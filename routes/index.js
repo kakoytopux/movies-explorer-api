@@ -10,7 +10,12 @@ const errNotFound = require('../errors/errNotFound');
 const limiter = require('../middlewares/limiter');
 const { validateSignIn, validateSignUp } = require('../middlewares/validation');
 
-router.use(cors());
+const corsOpt = {
+  origin: '*',
+  credentials: true,
+};
+
+router.use(cors(corsOpt));
 
 router.use(requestLogger);
 
