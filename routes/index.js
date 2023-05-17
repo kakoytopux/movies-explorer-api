@@ -9,6 +9,8 @@ const errNotFound = require('../errors/errNotFound');
 const limiter = require('../middlewares/limiter');
 const { validateSignIn, validateSignUp } = require('../middlewares/validation');
 
+router.header('Access-Control-Allow-Origin', '*');
+
 router.use(requestLogger);
 
 router.use(limiter);
