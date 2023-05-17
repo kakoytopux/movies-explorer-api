@@ -1,5 +1,3 @@
-const errUnauthorized = require('../errors/errUnauthorized');
-
 module.exports.signout = (req, res) => {
   const { token } = req.cookies;
 

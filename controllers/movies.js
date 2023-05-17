@@ -2,7 +2,6 @@ const Movie = require('../models/movie');
 const errInternal = require('../errors/errInternal');
 const errForbidden = require('../errors/errForbidden');
 const errNotFound = require('../errors/errNotFound');
-const errBadRequest = require('../errors/errBadRequest');
 
 const createErrInternal = () => new errInternal('Внутренняя ошибка сервера');
 
