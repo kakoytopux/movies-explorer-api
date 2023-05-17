@@ -27,6 +27,7 @@ module.exports.signin = (req, res, next) => {
           res.cookie('token', token, {
             maxAge: 3600000 * 24 * 7,
             httpOnly: true,
+            sameSite: false,
           }).end();
         })
         .catch(next);
