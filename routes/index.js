@@ -11,7 +11,7 @@ const limiter = require('../middlewares/limiter');
 const { validateSignIn, validateSignUp } = require('../middlewares/validation');
 
 const corsOpt = {
-  origin: '*',
+  origin: ['http://localhost:3000'],
   credentials: true,
 };
 
