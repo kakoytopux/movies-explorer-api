@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const cors = require('cors');
 const { celebrate, errors } = require('celebrate');
 const { requestLogger, errorLogger } = require('../middlewares/logger');
 const { signin } = require('../controllers/signin');
@@ -9,7 +10,7 @@ const errNotFound = require('../errors/errNotFound');
 const limiter = require('../middlewares/limiter');
 const { validateSignIn, validateSignUp } = require('../middlewares/validation');
 
-router.header('Access-Control-Allow-Origin', '*');
+router.use(cors());
 
 router.use(requestLogger);
 
