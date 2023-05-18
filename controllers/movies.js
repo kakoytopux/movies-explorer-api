@@ -2,6 +2,7 @@ const Movie = require('../models/movie');
 const errInternal = require('../errors/errInternal');
 const errForbidden = require('../errors/errForbidden');
 const errNotFound = require('../errors/errNotFound');
+const errConflict = require('../errors/errConflict');
 
 const createErrInternal = () => new errInternal('Внутренняя ошибка сервера');
 
@@ -32,7 +33,14 @@ module.exports.createFilm = (req, res, next) => {
     movieId,
   })
     .then((film) => res.send({ film }))
-    .catch(() => next(createErrInternal()));
+    .catch((err) => {
+      if (err.code === 11000) {
+        next(new errConflict('Такой фильм уже добавлен.'));
+        return;
+      }
+
+      next(createErrInternal());
+    });
 };
 module.exports.deleteFilm = (req, res, next) => {
   Movie.findById(req.params._id).populate('owner')
