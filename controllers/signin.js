@@ -29,7 +29,7 @@ module.exports.signin = (req, res, next) => {
             httpOnly: true,
             sameSite: 'none',
             secure: true,
-          }).end({ message: 'Авторизация прошла успешно!' });
+          }).end('{}');
         })
         .catch(next);
     })
