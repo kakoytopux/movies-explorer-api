@@ -24,7 +24,7 @@ router.use(limiter);
 
 router.post('/signin', celebrate(validateSignIn), signin);
 router.post('/signup', celebrate(validateSignUp), createUser);
-router.post('/check-cookie', checkcookie);
+router.get('/check-cookie', checkcookie);
 
 router.use(auth);
 
