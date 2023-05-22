@@ -9,7 +9,6 @@ const { auth } = require('../middlewares/auth');
 const errNotFound = require('../errors/errNotFound');
 const limiter = require('../middlewares/limiter');
 const { validateSignIn, validateSignUp } = require('../middlewares/validation');
-const { checkcookie } = require('../controllers/checkcookie');
 
 const corsOpt = {
   origin: ['http://localhost:3000'],
@@ -24,7 +23,6 @@ router.use(limiter);
 
 router.post('/signin', celebrate(validateSignIn), signin);
 router.post('/signup', celebrate(validateSignUp), createUser);
-router.get('/check-cookie', checkcookie);
 
 router.use(auth);
 
